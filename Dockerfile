@@ -1,5 +1,7 @@
 # Alpine Linux with s6 service management
-FROM smebberson/alpine-base:3.2.0
+#FROM smebberson/alpine-base:3.3.0
+# 3.15 is the newest version with access to php7
+FROM cohr_alpine_base:3.15
 
 ARG APACHE_GID=101
 ARG APACHE_UID=100
@@ -11,12 +13,12 @@ ARG APACHE_UID=100
 	# Create the authentication file for http access
 	# Getting SVNADMIN interface
 RUN /usr/sbin/addgroup -g $APACHE_GID -S apache &&\
-        /usr/sbin/adduser -G apache -u $APACHE_UID -H -S apache &&\
+    /usr/sbin/adduser -G apache -u $APACHE_UID -H -S apache &&\
     apk add --no-cache bash &&\
-        apk add --no-cache apache2 apache2-utils apache2-webdav mod_dav_svn &&\
+    apk add --no-cache apache2 apache2-ctl apache2-utils apache2-webdav mod_dav_svn &&\
 	apk add --no-cache subversion &&\
 	apk add --no-cache wget unzip php7 php7-apache2 php7-session php7-json php7-ldap &&\
-	apk add --no-cache php7-xml &&\	
+	apk add --no-cache php7-xml &&\
 	sed -i 's/;extension=ldap/extension=ldap/' /etc/php7/php.ini &&\
 	mkdir -p /run/apache2/ &&\
 	mkdir /home/svn/ &&\
