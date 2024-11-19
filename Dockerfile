@@ -51,3 +51,5 @@ ENV HOME /home
 
 # Expose ports for http and custom protocol access
 EXPOSE 80 443 3690
+
+ENV SVN_PORT 3690
